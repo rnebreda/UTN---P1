@@ -59,7 +59,7 @@ def actualizar(archivo_a_actualizar, lista):
 
     #El parámetro newline="", indica que el módulo csv se hará cargo de la creación
     #  de nuevas lineas en el archivo
-    with open(archivo_a_actualizar, "w", newline= "") as paises:
+    with open(archivo_a_actualizar, "w", newline= "", encoding="utf-8") as paises:
 
         #Se genera una lista con los nombres de los campos en el encabezado de columnas del archivo
         encabezado=["NOMBRE","POBLACION","SUPERFICIE","CONTINENTE"]
@@ -99,9 +99,9 @@ def validar_nombre(lista,nombre):
     while buscar_por_nombre_pais(lista, nombre) or nombre == "" or len(nombre)>50:
         print("El país ya existe en el listado o ingresó un nombre de país no válido. Intente nuevamente.")
         print()
-        titulo= input("Ingrese el nombre del país (máximo 50 caracteres): ").lower().strip()
+        nombre= input("Ingrese el nombre del país (máximo 50 caracteres): ").lower().strip()
         print()
-    return titulo.capitalize()
+    return nombre.capitalize()
 
 
 #Función que valida la cantidad ingresada como texto (str)
