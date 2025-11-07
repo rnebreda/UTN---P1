@@ -27,7 +27,7 @@ def paises_diccionarios (archivo_a_leer,lista):
 def paises_diccionarios (archivo_a_leer,lista):
     #importa múdulo CSV para utilizar función DictRider
     import csv
-    with open(archivo_a_leer,"r") as archivo:
+    with open(archivo_a_leer,"r", encoding="utf-8-sig") as archivo:
 
         #Esta función interpreta la primera fila como los nombres de las claves de los diccionarios.
         # y genera un diccionario por cada renglón del archivo csv. 
@@ -59,7 +59,7 @@ def actualizar(archivo_a_actualizar, lista):
 
     #El parámetro newline="", indica que el módulo csv se hará cargo de la creación
     #  de nuevas lineas en el archivo
-    with open(archivo_a_actualizar, "w", newline= "", encoding="utf-8") as paises:
+    with open(archivo_a_actualizar, "w", newline= "", encoding="utf-8-sig") as paises:
 
         #Se genera una lista con los nombres de los campos en el encabezado de columnas del archivo
         encabezado=["NOMBRE","POBLACION","SUPERFICIE","CONTINENTE"]
@@ -96,11 +96,11 @@ def verificar_opcion_menu(opcion_elegida):
 #devuelve el nombre validado y en formato capital (primera letra en mayúscula)
 def validar_nombre(lista,nombre):
     nombre.lower().strip()
-    while buscar_por_nombre_pais(lista, nombre) or nombre == "" or len(nombre)>50:
+    while buscar_por_nombre_pais(lista, nombre) or nombre == "" or len(nombre)>25:
         print("El país ya existe en el listado o ingresó un nombre de país no válido. Intente nuevamente.")
         print()
-        nombre= input("Ingrese el nombre del país (máximo 50 caracteres): ").lower().strip()
-        print()
+        nombre= input("Ingrese el nombre del país (máximo 25 caracteres): ").lower().strip()
+    print()
     return nombre.capitalize()
 
 
@@ -184,7 +184,7 @@ def buscar_por_nombre_pais(lista, nombre):
 #Agrega un elemento nuevo a la lista (sin actualizar en el archivo)
 def agregar_en_lista(lista):
             
-    nombre= validar_nombre(lista, input("Ingrese el nombre del pais (máximo 50 caracteres): "))
+    nombre= validar_nombre(lista, input("Ingrese el nombre del pais (máximo 25 caracteres): "))
     poblacion= validar_cantidad(input("Ingrese la población (cantiad entera): "),"poblacion")
     superficie= validar_cantidad(input("Ingrese la superficie (en km2): "), "superficie")
     continente= validar_continente()
@@ -196,24 +196,22 @@ def agregar_en_lista(lista):
 
 #Imprime todos los paises de la lista
 # agregando un número de orden igual a su índice
-def imprimir_lista_paises (paises):
+def imprimir_lista_paises(paises):
 
     encabezado=["NOMBRE","POBLACION","SUPERFICIE","CONTINENTE"]
 
-    print("*** LISTADO DE PAISES ***")
+    print("*************** LISTADO DE PAISES ***************")
+    print(" N°", end="")
+    for j in range(len(encabezado)):
+        print(f" ** {encabezado[j]}", end= "")
+    print() 
 
     for i in range(len(paises)):
-        if i == 0:
-            print(" N°", end="")
-            for j in range(len(encabezado)):
-                print(f" ***{encabezado[j]}***", end= "")
-            print()    
 
-        else:
             if i < 10:
                 print(" ", end="")
 
-            print(f"{i}. {paises[i]["NOMBRE"]}, {paises[i]["POBLACION"]}, {paises[i]["SUPERFICIE"]}, {paises[i]["CONTINENTE"]}")
+            print(f"{i+1}. {paises[i]["NOMBRE"]}, {paises[i]["POBLACION"]}, {paises[i]["SUPERFICIE"]}, {paises[i]["CONTINENTE"]}")
     print()
 
 
@@ -232,7 +230,7 @@ def lista_vacia(lista):
 
 #Retorna el valor de "NOMBRE" de un diccionario de la lista accediendo por su índice
 def extraer_nombre(posicion, lista):
-    return int(lista[posicion]["NOMBRE"])
+    return lista[posicion]["NOMBRE"]
 
 
 #Retorna el valor de "POBLACION" de un diccionario de la lista accediendo por su índice
@@ -247,7 +245,7 @@ def extraer_superficie(posicion, lista):
 
 #Retorna el valor de "CONTINENTE" de un diccionario de la lista accediendo por su índice
 def extraer_continente(posicion, lista):
-    return int(lista[posicion]["CONTINENTE"])
+    return lista[posicion]["CONTINENTE"]
 
 
 #Busca un elemento en una lista de diccionarios por la clave "NOMBRE" 
@@ -267,56 +265,145 @@ def buscar_indice_por_nombre_pais(lista, nombre):
 
 """**********FUNCIONES DE ORDENAMIENTO DE LISTA DE DICCIONARIOS**********"""
 
-def ordenar_por_nombre_ascendente(lista):
+
+#Funcion para ordenar una lista de diccionarios en forma ascendente 
+# de acuerdo a uno de los campos (criterio) del diccionario.
+# Utiliza un algoritmo de burbuja para ordenar
+#Devuelve una lista ordenada sin modificar la original
+def ordenar_ascendente(lista, criterio):
+
+    #Crea una nueva lista vacía
+    ordenada=[]
+
+    #Se cargan todos los diccionarios de la lista original en la nueva lista
+    for diccionario in lista:
+        ordenada.append(diccionario)
+
+        #Recorre la lista comparando los elementos de a pares n-1 veces (pasos), 
+        # siendo n la cantidad de elementos de la lista
+        for paso in range (len(ordenada) - 1):
+
+            #Utiliza la bandera "intercambio" que indicará si en algun paso antes de n-1 
+            # no se realizaron intercambios. Esto indicaría que la lista ya está ordenada 
+            # y no es necesario continuar con los restantes pasos.
+            intercambio =False
+
+            #En cada paso es necesaria una comparación menos, 
+            # por lo cual se resta el n° de paso en el siguiente ciclo for
+            for i in range (len(ordenada) -1 - paso):
+
+                #Realiza la comparación de cada elemento con el siguiente
+                #En este caso como es un ordenamiento ascendente utiliza el signo mayor (>)
+                if ordenada[i][criterio] > ordenada[i + 1][criterio]:
+
+                    #Si el elemento es mayor que el siguiente, realiza el entercambio, 
+                    # y cambia el valor de la bandera "intercambio" a True
+                    ordenada[i], ordenada[i + 1] = ordenada[i + 1], ordenada[i]
+                    intercambio=True
+
+            #Si no hubo intercambios en el paso, finaliza ya que la lista quedó ordenada
+            if not intercambio:
+                break
+    
+    #Devuelve la lista ordenada
+    return ordenada
+
+
+#Funcion para ordenar una lista de diccionarios en forma descendente 
+# de acuerdo a uno de los campos (criterio) del diccionario.
+# Utiliza un algoritmo de burbuja para ordenar
+#Devuelve una lista ordenada sin modificar la original
+def ordenar_descendente(lista, criterio):
+
+    #Crea una nueva lista vacía
+    ordenada=[]
+
+    #Se cargan todos los diccionarios de la lista original en la nueva lista
+    for diccionario in lista:
+        ordenada.append(diccionario)
+
+        #Recorre la lista comparando los elementos de a pares n-1 veces (pasos), 
+        # siendo n la cantidad de elementos de la lista
+        for paso in range (len(ordenada) - 1):
+
+            #Utiliza la bandera "intercambio" que indicará si en algun paso antes de n-1 
+            # no se realizaron intercambios. Esto indicaría que la lista ya está ordenada 
+            # y no es necesario continuar con los restantes pasos.
+            intercambio =False
+
+            #En cada paso es necesaria una comparación menos, 
+            # por lo cual se resta el n° de paso en el siguiente ciclo for
+            for i in range (len(ordenada) -1 - paso):
+
+                #Realiza la comparación de cada elemento con el siguiente
+                #En este caso como es un ordenamiento descendente utiliza el signo menor (<)
+                if ordenada[i][criterio] < ordenada[i + 1][criterio]:
+
+                    #Si el elemento es menor que el siguiente, realiza el entercambio, 
+                    # y cambia el valor de la bandera "intercambio" a True
+                    ordenada[i], ordenada[i + 1] = ordenada[i + 1], ordenada[i]
+                    intercambio=True
+
+            #Si no hubo intercambios en el paso, finaliza ya que la lista quedó ordenada
+            if not intercambio:
+                break
+    
+    #Devuelve la lista ordenada
+    return ordenada
+
+
+""" def ordenar_por_nombre_ascendente(lista):
     from operator import itemgetter
 
     # Usar itemgetter("NOMBRE") como la clave de ordenación
     nombre_ascendente = sorted(lista, key=itemgetter("NOMBRE"))
 
-    return nombre_ascendente
+    return nombre_ascendente """
 
-def ordenar_por_nombre_descendente(lista):
+
+""" def ordenar_por_nombre_descendente(lista):
     from operator import itemgetter
 
     # Usar itemgetter("NOMBRE") como la clave de ordenación
     nombre_descendente = sorted(lista, key=itemgetter("NOMBRE"), reverse=True)
 
-    return nombre_descendente
+    return nombre_descendente """
 
 
-def ordenar_por_poblacion_ascendente(lista):
+""" def ordenar_por_poblacion_ascendente(lista):
     from operator import itemgetter
 
     # Usar itemgetter("POBLACION") como la clave de ordenación
     poblacion_ascendente = sorted(lista, key=itemgetter("POBLACION"))
 
-    return poblacion_ascendente
+    return poblacion_ascendente """
 
 
-def ordenar_por_poblacion_descendente(lista):
+""" def ordenar_por_poblacion_descendente(lista):
     from operator import itemgetter
 
     # Usar itemgetter("POBLACION") como la clave de ordenación
     poblacion_descendente = sorted(lista, key=itemgetter("POBLACION"), reverse=True)
 
-    return poblacion_descendente
+    return poblacion_descendente """
 
-def ordenar_por_superficie_ascendente(lista):
+
+""" def ordenar_por_superficie_ascendente(lista):
     from operator import itemgetter
 
     # Usar itemgetter("POBLACION") como la clave de ordenación
     poblacion_ascendente = sorted(lista, key=itemgetter("SUPERFICIE"))
 
-    return poblacion_ascendente
+    return poblacion_ascendente """
 
 
-def ordenar_por_superficie_descendente(lista):
+""" def ordenar_por_superficie_descendente(lista):
     from operator import itemgetter
 
     # Usar itemgetter("POBLACION") como la clave de ordenación
     superficie_descendente = sorted(lista, key=itemgetter("SUPERFICIE"), reverse=True)
 
-    return superficie_descendente
+    return superficie_descendente """
 
 
 
@@ -337,6 +424,8 @@ def ordenar_por_superficie_descendente(lista):
 #Funcion calcular_promedio_superficie()
 
 #Función contar_paises_por_continente
+
+#Funcion modificar_pais - Punto 2 del menú
 
 
 

@@ -87,6 +87,9 @@ finalizado= False
 
 #Todo el programa se encuentra dentro de un bucle while que finaliza al elegir
 # la opción 8 del menú donde la bandera "finalizado" toma el valor "True" 
+
+# print(paises)
+
 while  not finalizado:
 
     #Muestra el menú en pantalla
@@ -145,7 +148,6 @@ while  not finalizado:
 
             pass
 
-            #Funcion modificar_pais()
             
             #Informa al usuario que se ha actualizado el pais
 
