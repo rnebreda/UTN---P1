@@ -491,7 +491,6 @@ def ordenar_descendente(lista, criterio):
 
 #Función contar_paises_por_continente
 
-#Funcion modificar_pais - Punto 2 del menú
 
 
 
