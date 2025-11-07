@@ -157,7 +157,7 @@ def verificar_opcion_ingresada(opcion_elegida, paises):
         
         opcion_elegida.strip()
 
-        while not (opcion_elegida.isdigit()) or not (int(opcion_elegida) in range(1, len(paises)) ):
+        while not (opcion_elegida.isdigit()) or not (int(opcion_elegida) in range(1, len(paises)+1) ):
             print("La opción ingresada no es correcta")
             opcion_elegida = input("Ingrese el nombre del pais deseado: ")
             print()
@@ -260,6 +260,31 @@ def buscar_indice_por_nombre_pais(lista, nombre):
         
     #Si no lo encuentra devuelve -1
     return -1
+
+
+#Modifica un diccionario de la lista (sin actualizar en el archivo)
+# Se pasa como parámetro la lista y el indice de la posición del diccionario en la lista
+# permite cambiar la población y superficie
+def modificar_pais(lista, posicion):
+
+    modifica= input(f"Usted va a modificar el pais {lista[posicion]["NOMBRE"]}. Desea continuar? (S=si)").upper().strip() == "S"
+
+    if modifica:
+
+        print("La población actual es:", lista[posicion]["POBLACION"])
+        modifica_poblacion= input("Desea modificar? (S=si)").upper().strip() == "S"
+        if modifica_poblacion:
+            poblacion= validar_cantidad(input("Ingrese la población (cantiad entera): "),"poblacion")
+            lista[posicion]["POBLACION"]=poblacion
+
+        print("La superficie actual es:", lista[posicion]["SUPERFICIE"])
+        modifica_superficie= input("Desea modificar? (S=si)").upper().strip() == "S"
+        if modifica_superficie:
+            superficie= validar_cantidad(input("Ingrese la superficie (en km2): "), "superficie")
+            lista[posicion]["SUPERFICIE"]=superficie
+
+        print(f"Se ha modificado el país {lista[posicion]["NOMBRE"]}")
+        print()
 
 
 

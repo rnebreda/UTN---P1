@@ -146,15 +146,12 @@ while  not finalizado:
             #La función no sale del while hasta que la opción sea correcta
             pais_elegido=utils.verificar_opcion_ingresada(input("Ingrese el número del pais deseado: "), paises)
 
-            pass
-
-            
-            #Informa al usuario que se ha actualizado el pais
-
+            #Permite modificar población y superficie del país elegido
+            utils.modificar_pais(paises, pais_elegido-1)
 
             #Imprime la lista modificada y actualiza el archivo
-            #utils.imprimir_lista_paises(paises)
-            #utils.actualizar("paises.csv", paises)
+            utils.imprimir_lista_paises(paises)
+            utils.actualizar("paises.csv", paises)
 
         
         case "3": #Buscar por nombre
