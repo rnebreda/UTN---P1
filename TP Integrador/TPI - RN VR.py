@@ -203,11 +203,10 @@ while  not finalizado:
                 continue
 
 
-            pass
-
-            #Funcion reporte_por_continente()
-
+            utils.reporte_por_continente(paises)
+            input("Presiona una tecla para continuar...")
         
+
         case "5": #Reportes por Población
             # El usuario elige el rango de valores de población de un menú 
             # y el ordenamiento deseado en un submenú

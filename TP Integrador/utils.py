@@ -141,7 +141,7 @@ def validar_continente():
     print()
 
     #valida que la opción ingresada sea un número y esté dentro del rango de opciones del menu
-    while not (opcion_elegida.isdigit()) or not (int(opcion_elegida) in range(len(continentes)+1) ):
+    while not (opcion_elegida.isdigit()) or not (int(opcion_elegida) in range(1, len(continentes)+1) ):
         print("La opción ingresada no es correcta")
         opcion_elegida = input("Seleccione el número de un continente del listado: ")
         print()
@@ -359,13 +359,27 @@ def ordenar_ascendente(lista, criterio):
             for i in range (len(ordenada) -1 - paso):
 
                 #Realiza la comparación de cada elemento con el siguiente
-                #En este caso como es un ordenamiento ascendente utiliza el signo mayor (>)
-                if ordenada[i][criterio] > ordenada[i + 1][criterio]:
+                #En este caso como es un ordenamiento descendente utiliza el signo mayor (>)
+
+                #Si es numérico ordena por número
+                if ordenada[i][criterio].isdigit():
+
+                    if int(ordenada[i][criterio]) > int(ordenada[i + 1][criterio]):
 
                     #Si el elemento es mayor que el siguiente, realiza el entercambio, 
                     # y cambia el valor de la bandera "intercambio" a True
-                    ordenada[i], ordenada[i + 1] = ordenada[i + 1], ordenada[i]
-                    intercambio=True
+                        ordenada[i], ordenada[i + 1] = ordenada[i + 1], ordenada[i]
+                        intercambio=True
+                
+                #Si no es numérico ordena alfabéticamente
+                else:
+
+                    if (ordenada[i][criterio]) > (ordenada[i + 1][criterio]):
+
+                    #Si el elemento es menor que el siguiente, realiza el entercambio, 
+                    # y cambia el valor de la bandera "intercambio" a True
+                        ordenada[i], ordenada[i + 1] = ordenada[i + 1], ordenada[i]
+                        intercambio=True
 
             #Si no hubo intercambios en el paso, finaliza ya que la lista quedó ordenada
             if not intercambio:
@@ -403,12 +417,26 @@ def ordenar_descendente(lista, criterio):
 
                 #Realiza la comparación de cada elemento con el siguiente
                 #En este caso como es un ordenamiento descendente utiliza el signo menor (<)
-                if ordenada[i][criterio] < ordenada[i + 1][criterio]:
+
+                #Si es numérico ordena por número
+                if ordenada[i][criterio].isdigit():
+
+                    if int(ordenada[i][criterio]) < int(ordenada[i + 1][criterio]):
 
                     #Si el elemento es menor que el siguiente, realiza el entercambio, 
                     # y cambia el valor de la bandera "intercambio" a True
-                    ordenada[i], ordenada[i + 1] = ordenada[i + 1], ordenada[i]
-                    intercambio=True
+                        ordenada[i], ordenada[i + 1] = ordenada[i + 1], ordenada[i]
+                        intercambio=True
+                
+                #Si no es numérico ordena alfabéticamente
+                else:
+
+                    if (ordenada[i][criterio]) < (ordenada[i + 1][criterio]):
+
+                    #Si el elemento es menor que el siguiente, realiza el entercambio, 
+                    # y cambia el valor de la bandera "intercambio" a True
+                        ordenada[i], ordenada[i + 1] = ordenada[i + 1], ordenada[i]
+                        intercambio=True
 
             #Si no hubo intercambios en el paso, finaliza ya que la lista quedó ordenada
             if not intercambio:
@@ -416,6 +444,48 @@ def ordenar_descendente(lista, criterio):
     
     #Devuelve la lista ordenada
     return ordenada
+
+
+def ordenamiento_lista (lista):
+
+    #Lista de opciones de ordenamiento
+    ordenamientos= ["Nombre ascendente", "Nombre descendente", "Población ascendente", "Población descendente", "Superficie Ascendente", "Superficie Descendente"]
+    
+    #Muestra el menú de opciones de ordenamiento en pantalla agregando un número de orden
+    print()
+    print("*** OPCIONES DE ORDENAMIENTO ***")
+    for i in range(len(ordenamientos)):
+        print(f"   {i+1}. {ordenamientos[i]}")
+    print()
+    opcion_elegida = input("Seleccione el número de ordenamiento deseado para el reporte: ")
+    print()
+
+    #valida que la opción ingresada sea un número y esté dentro del rango de opciones del menu
+    while not (opcion_elegida.isdigit()) or not (int(opcion_elegida) in range(1, len(ordenamientos)+1) ):
+        print("La opción ingresada no es correcta")
+        opcion_elegida = input("Seleccione el número de ordenamiento deseado para el reporte: ")
+        print()
+
+    #Devuelve la lista ordenada
+    match opcion_elegida:
+        case "1":
+            return ordenar_ascendente(lista, "NOMBRE")
+        case "2":
+            return ordenar_descendente(lista, "NOMBRE")
+        case "3":
+            return ordenar_ascendente(lista, "POBLACION")
+        case "4":
+            return ordenar_descendente(lista, "POBLACION")
+        case "5":
+            return ordenar_ascendente(lista, "SUPERFICIE")
+        case "6":
+            return ordenar_descendente(lista, "SUPERFICIE")
+        case _:
+            return lista
+
+    
+    
+
 
 
 """ def ordenar_por_nombre_ascendente(lista):
@@ -470,6 +540,34 @@ def ordenar_descendente(lista, criterio):
     superficie_descendente = sorted(lista, key=itemgetter("SUPERFICIE"), reverse=True)
 
     return superficie_descendente """
+
+
+
+"""*****************FUNCIONES DE REPORTES*****************"""
+
+
+def reporte_por_continente(lista):
+    
+    continente=validar_continente()
+
+    lista_filtrada=[]
+
+    for pais in lista:
+
+        if pais["CONTINENTE"]== continente:
+            lista_filtrada.append(pais)
+
+    
+
+    if len(lista_filtrada) > 0:
+
+        lista_filtrada= ordenamiento_lista(lista_filtrada)
+
+        print(f"Continente: {continente}")
+        imprimir_lista_paises(lista_filtrada)
+
+    else:
+        print(f"No hay paises del continente {continente} en el listado")
 
 
 
