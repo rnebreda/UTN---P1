@@ -262,6 +262,47 @@ def buscar_indice_por_nombre_pais(lista, nombre):
     return -1
 
 
+#Busca un elemento en una lista de diccionarios por la clave "NOMBRE" con coincidencia parcial
+# devuelve una lista con las coincidencias
+def buscar_nombre_coincidencia_parcial(lista, nombre):
+
+    coincidencias=[]
+
+    encontrado=False
+
+    for elemento in lista:
+
+        #Si lo encuentra almacena el nombre y el índice del elemento
+        if elemento["NOMBRE"].lower().strip().find(nombre.lower().strip())>= 0:
+            coincidencias.append({"NOMBRE":elemento["NOMBRE"], "INDICE":lista.index(elemento)})
+            encontrado=True
+
+    if len(coincidencias)>1:
+
+        print("*************** COINCIDENCIAS ENCONTRADAS ***************")
+
+        for i in range(len(coincidencias)):  
+
+            print(f"{i+1}. {coincidencias[i]["NOMBRE"]}")
+
+        opcion_elegida=input("Elija una opción: ").strip()
+
+        while not (opcion_elegida.isdigit()) or not (int(opcion_elegida) in range(1, len(coincidencias)+1)):
+            print("La opción ingresada no es correcta")
+            opcion_elegida = input("Elija una opción: ")
+            print()
+        
+        return int(coincidencias[int(opcion_elegida)-1]["INDICE"])
+
+    elif len(coincidencias)==1:
+            return  int(coincidencias[0]["INDICE"])
+    print()  
+        
+    #Si no lo encuentra devuelve -1
+    if not encontrado:
+        return -1
+
+
 #Modifica un diccionario de la lista (sin actualizar en el archivo)
 # Se pasa como parámetro la lista y el indice de la posición del diccionario en la lista
 # permite cambiar la población y superficie

@@ -170,7 +170,9 @@ while  not finalizado:
             #Si no hay coincidencias, informa al usuario que ese pais no existe en el listado.
             #Si lo encuentra muestra nombre, población, superficie y continente al que pertenece.
             pais_a_consultar= input("Ingrese el nombre del pais a consultar: ")
-            indice = utils.buscar_indice_por_nombre_pais(paises, pais_a_consultar)
+            
+            #indice = utils.buscar_indice_por_nombre_pais(paises, pais_a_consultar)
+            indice = utils.buscar_nombre_coincidencia_parcial(paises, pais_a_consultar)
 
             if indice >= 0:
 
