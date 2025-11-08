@@ -239,25 +239,10 @@ while  not finalizado:
 
 
         case "7": #Estadísticas
-            #Muestra las estadísticas solicitadas
+            #Muestra las estadísticas y conteo de paises por continente
 
-            # País con mayor población
-                #Funcion mayor_poblacion()
-
-            # País con menor población
-                #Funcion menor_poblacion()
-
-            # Promedio de población (de todos los paises de la lista)
-                #Funcion calcular_promedio_poblacion()
-
-            # Promedio de superficie (de todos los paises de la lista)
-                #Funcion calcular_promedio_superficie()
-
-            # Cantidad de países por continente
-                #Función contar_paises_por_continente
-
-
-            pass
+            utils.estadisticas(paises)
+            input("Presiona una tecla para continuar...")
 
 
         case "8": #Salir

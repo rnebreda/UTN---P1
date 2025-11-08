@@ -670,18 +670,102 @@ def reporte_por_superficie(lista):
 
 
 
-"""*************************FALTAN*************************"""
+def estadisticas(lista):
+
+    continentes= ["África", "América", "Asia", "Europa", "Oceanía"]
+
+    mayor_poblacion_nombre=""
+    mayor_poblacion=0
+    menor_poblacion_nombre=""
+    menor_poblacion=999999999999
+    suma_poblacion=0
+
+    mayor_superficie_nombre=""
+    mayor_superficie=0
+    menor_superficie_nombre=""
+    menor_superficie=999999999999    
+    suma_superficie=0
+
+    cuenta_africa=0
+    cuenta_america=0
+    cuenta_asia=0
+    cuenta_europa=0
+    cuenta_oceania=0
+
+    for pais in lista:
+
+        if int(pais["POBLACION"]) < menor_poblacion:
+            menor_poblacion= int(pais["POBLACION"])
+            menor_poblacion_nombre= pais["NOMBRE"]
+
+        if int(pais["POBLACION"]) > mayor_poblacion:
+            mayor_poblacion= int(pais["POBLACION"])
+            mayor_poblacion_nombre= pais["NOMBRE"]
+
+        if int(pais["SUPERFICIE"]) < menor_superficie:
+            menor_superficie= int(pais["SUPERFICIE"])
+            menor_superficie_nombre= pais["NOMBRE"]
+
+        if int(pais["SUPERFICIE"]) > mayor_superficie:
+            mayor_superficie= int(pais["SUPERFICIE"])
+            mayor_superficie_nombre= pais["NOMBRE"]
+
+        for continente in continentes:
+
+            if pais["CONTINENTE"] == continente:
+                opcion = continentes.index(continente)
+            
+        match opcion:
+            case 0: #África
+                cuenta_africa += 1
+            case 1: #América
+                cuenta_america += 1
+            case 2: #Asia
+                cuenta_asia += 1
+            case 3: #Europa
+                cuenta_europa += 1
+            case 4: #Oceanía
+                cuenta_oceania += 1
+            case _:
+                pass
+
+        suma_poblacion += int(pais["POBLACION"])
+
+        suma_superficie += int(pais["SUPERFICIE"])
+
+    print("************* ESTADISTICAS *************")
+    print()
+    print("Pais con menor población:", menor_poblacion_nombre, ". Población:", menor_poblacion," habitantes.")
+    print("Pais con mayor población:", mayor_poblacion_nombre, ". Población:", mayor_poblacion," habitantes.")
+    print("Promedio de Población de los paises del listado:", suma_poblacion//len(lista)," habitantes/país.")
+    print()
+    print("Pais con menor superficie:", menor_superficie_nombre, ". Superficie:", menor_superficie," Km2.")
+    print("Pais con mayor superficie:", mayor_superficie_nombre, ". Superficie:", mayor_poblacion," Km2.")
+    print("Promedio de Superficie de los paises del listado:", suma_superficie//len(lista)," Km2/país.")
+    print()
+    print("*** CANTIDAD DE PAISES POR CONTINENTE ***")
+
+    for continente in continentes:
+        opcion = continentes.index(continente)
+        print(f"{continente}: ", end="")
+
+        match opcion:
+            case 0: #África
+                print(cuenta_africa)
+            case 1: #América
+                print(cuenta_america)
+            case 2: #Asia
+                print(cuenta_asia)
+            case 3: #Europa
+                print(cuenta_europa)
+            case 4: #Oceanía
+                print(cuenta_oceania)
+            case _:
+                pass
+    
 
 
-#Funcion mayor_poblacion()
 
-#Funcion menor_poblacion()
-
-#Funcion calcular_promedio_poblacion()
-
-#Funcion calcular_promedio_superficie()
-
-#Función contar_paises_por_continente
 
 
 
