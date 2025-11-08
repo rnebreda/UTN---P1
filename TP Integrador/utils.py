@@ -149,6 +149,53 @@ def validar_continente():
     #Devuelve el continente elegido (string)
     return continentes[int(opcion_elegida)-1]
 
+def validar_rango_poblacion():
+
+    #Lista de rangos de población (6 rangos)
+    rangos_poblacion= ["Mayor a 100 millones", "Entre 50 y 100 millones", "Entre 10 y 50 millones", "Entre 5 y 10 millones", "Entre 1 y 5 millones", "Menor a 1 millón"]
+    
+    #Muestra el menú de rangos de población en pantalla agregando un número de orden
+    print()
+    print("*** RANGOS DE POBLACION ***")
+    for i in range(len(rangos_poblacion)):
+        print(f"   {i+1}. {rangos_poblacion[i]}")
+    print()
+    opcion_elegida = input("Seleccione un rango de población del listado: ")
+    print()
+
+    #valida que la opción ingresada sea un número y esté dentro del rango de opciones del menu
+    while not (opcion_elegida.isdigit()) or not (int(opcion_elegida) in range(1, len(rangos_poblacion)+1) ):
+        print("La opción ingresada no es correcta")
+        opcion_elegida = input("Seleccione el número de rango de población del listado: ")
+        print()
+
+    #Devuelve el número del rango de población elegido ( 1 a 6 como string)
+    return opcion_elegida
+
+
+def validar_rango_superficie():
+
+    #Lista de rangos de superficie (6 rangos)
+    rangos_superficie= ["Mayor a 5 millones", "Entre 1 y 5 millones", "Entre 500 mil y 1 millón", "Entre 100 y 500 mil", "Entre 50 y 100 mil", "Menor a 50 mil"]
+    
+    #Muestra el menú de rangos de superficie en pantalla agregando un número de orden
+    print()
+    print("*** RANGOS DE SUPURFICIE (en Km2) ***")
+    for i in range(len(rangos_superficie)):
+        print(f"   {i+1}. {rangos_superficie[i]}")
+    print()
+    opcion_elegida = input("Seleccione un rango de superficie del listado: ")
+    print()
+
+    #valida que la opción ingresada sea un número y esté dentro del rango de opciones del menu
+    while not (opcion_elegida.isdigit()) or not (int(opcion_elegida) in range(1, len(rangos_superficie)+1) ):
+        print("La opción ingresada no es correcta")
+        opcion_elegida = input("Seleccione el número de rango de superficie del listado: ")
+        print()
+
+    #Devuelve el número del rango de superficie elegido ( 1 a 6 como string)
+    return opcion_elegida
+
 
 #Función que valida que la opción elegida del listado de paises sea un entero positivo 
 # y que se encuentre dentro de los valores de las opciones del listado de paises
@@ -483,64 +530,6 @@ def ordenamiento_lista (lista):
         case _:
             return lista
 
-    
-    
-
-
-
-""" def ordenar_por_nombre_ascendente(lista):
-    from operator import itemgetter
-
-    # Usar itemgetter("NOMBRE") como la clave de ordenación
-    nombre_ascendente = sorted(lista, key=itemgetter("NOMBRE"))
-
-    return nombre_ascendente """
-
-
-""" def ordenar_por_nombre_descendente(lista):
-    from operator import itemgetter
-
-    # Usar itemgetter("NOMBRE") como la clave de ordenación
-    nombre_descendente = sorted(lista, key=itemgetter("NOMBRE"), reverse=True)
-
-    return nombre_descendente """
-
-
-""" def ordenar_por_poblacion_ascendente(lista):
-    from operator import itemgetter
-
-    # Usar itemgetter("POBLACION") como la clave de ordenación
-    poblacion_ascendente = sorted(lista, key=itemgetter("POBLACION"))
-
-    return poblacion_ascendente """
-
-
-""" def ordenar_por_poblacion_descendente(lista):
-    from operator import itemgetter
-
-    # Usar itemgetter("POBLACION") como la clave de ordenación
-    poblacion_descendente = sorted(lista, key=itemgetter("POBLACION"), reverse=True)
-
-    return poblacion_descendente """
-
-
-""" def ordenar_por_superficie_ascendente(lista):
-    from operator import itemgetter
-
-    # Usar itemgetter("POBLACION") como la clave de ordenación
-    poblacion_ascendente = sorted(lista, key=itemgetter("SUPERFICIE"))
-
-    return poblacion_ascendente """
-
-
-""" def ordenar_por_superficie_descendente(lista):
-    from operator import itemgetter
-
-    # Usar itemgetter("POBLACION") como la clave de ordenación
-    superficie_descendente = sorted(lista, key=itemgetter("SUPERFICIE"), reverse=True)
-
-    return superficie_descendente """
-
 
 
 """*****************FUNCIONES DE REPORTES*****************"""
@@ -571,13 +560,118 @@ def reporte_por_continente(lista):
 
 
 
+def reporte_por_poblacion(lista):
+
+    #Lista de rangos de población (6 rangos)
+    rangos_poblacion= ["Mayor a 100 millones", "Entre 50 y 100 millones", "Entre 10 y 50 millones", "Entre 5 y 10 millones", "Entre 1 y 5 millones", "Menor a 1 millón"]
+        
+    rango=validar_rango_poblacion()
+    
+    lista_filtrada=[]
+    
+    minimo=0
+    maximo=999999999999
+
+    #Establece el mínimo y el máximo del rango para filtrar la lista
+    match rango:
+        case "1": #Mayor a 100 millones
+            minimo=100000000
+            maximo=999999999999
+        case "2": #Entre 50 y 100 millones
+            minimo=50000000
+            maximo=100000000
+        case "3": #Entre 10 y 50 millones
+            minimo=10000000
+            maximo=50000000
+        case "4": #Entre 5 y 10 millones
+            minimo=5000000
+            maximo=10000000
+        case "5": #Entre 1 y 5 millones
+            minimo=1000000
+            maximo=5000000
+        case "6": #Menor a 1 millón
+            minimo=0
+            maximo=1000000
+        case _: #Sin filtrar
+            pass
+
+
+    for pais in lista:
+
+        if minimo <= int(pais["POBLACION"]) < maximo:
+            lista_filtrada.append(pais)
+
+    
+
+    if len(lista_filtrada) > 0:
+
+        lista_filtrada= ordenamiento_lista(lista_filtrada)
+
+        print(f"Rango de población: {rangos_poblacion[int(rango)-1]}")
+        imprimir_lista_paises(lista_filtrada)
+
+    else:
+        print(f"No hay paises del Rango de población {rangos_poblacion[int(rango)-1]} en el listado")
+
+
+
+def reporte_por_superficie(lista):
+    
+    #Lista de rangos de superficie (6 rangos)
+    rangos_superficie= ["Mayor a 5 millones", "Entre 1 y 5 millones", "Entre 500 mil y 1 millón", "Entre 100 y 500 mil", "Entre 50 y 100 mil", "Menor a 50 mil"]
+
+    rango=validar_rango_superficie()
+    
+    lista_filtrada=[]
+    
+    minimo=0
+    maximo=999999999999
+
+    #Establece el mínimo y el máximo del rango para filtrar la lista
+    match rango:
+        case "1": #Mayor a 5 millones
+            minimo=5000000
+            maximo=999999999999
+        case "2": #Entre 1 y 5 millones
+            minimo=1000000
+            maximo=5000000
+        case "3": #Entre 500 mil y 1 millón
+            minimo=500000
+            maximo=1000000
+        case "4": #Entre 100 y 500 mil
+            minimo=100000
+            maximo=500000
+        case "5": #Entre 50 y 100 mil
+            minimo=50000
+            maximo=100000
+        case "6": #Menor a 50 mil
+            minimo=0
+            maximo=50000
+        case _: #Sin filtrar
+            pass
+
+
+    for pais in lista:
+
+        if minimo <= int(pais["SUPERFICIE"]) < maximo:
+            lista_filtrada.append(pais)
+
+    
+
+    if len(lista_filtrada) > 0:
+
+        lista_filtrada= ordenamiento_lista(lista_filtrada)
+
+        print(f"Rango de superficio: {rangos_superficie[int(rango)-1]}")
+        imprimir_lista_paises(lista_filtrada)
+
+    else:
+        print(f"No hay paises del Rango de superficie {rangos_superficie[int(rango)-1]} en el listado")
+
+
+
 """*************************FALTAN*************************"""
 
-#Funcion reporte_por_continente()
-
-#Funcion reporte_por_poblacion()
-
-#Funcion reporte_por_superficie()
 
 #Funcion mayor_poblacion()
 

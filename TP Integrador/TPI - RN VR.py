@@ -194,14 +194,13 @@ while  not finalizado:
         case "4": #Reportes por Continente
             # El usuario elige el continente de un menú y el ordenamiento deseado en un submenú
             # muestra listado de paises filtrados por continente y 
-            # permite elegir el ordenamiento por nombre (por defecto), 
-            # superficie (ascendente o descendente) o población (ascendente o descendente)
+            # permite elegir el ordenamiento por nombre (ascendente o descendente), 
+            # población (ascendente o descendente) o superficie (ascendente o descendente)
             
             #Verifica si hay paises en la lista
             #Si no tiene datos, muestra un mensaje y vuelve al menú
             if utils.lista_vacia(paises):
                 continue
-
 
             utils.reporte_por_continente(paises)
             input("Presiona una tecla para continuar...")
@@ -211,36 +210,32 @@ while  not finalizado:
             # El usuario elige el rango de valores de población de un menú 
             # y el ordenamiento deseado en un submenú
             # muestra listado de paises filtrados por rango de población y 
-            # permite elegir el ordenamiento por nombre (por defecto), 
-            # o población (ascendente o descendente) dentro del rango
+            # permite elegir el ordenamiento por nombre (ascendente o descendente), población 
+            # (ascendente o descendente) o superficie (ascendente o descendente) dentro del rango
             
             #Verifica si hay paises en la lista
             #Si no tiene datos, muestra un mensaje y vuelve al menú
             if utils.lista_vacia(paises):
                 continue
 
-
-            pass
-
-            #Funcion reporte_por_poblacion()
+            utils.reporte_por_poblacion(paises)
+            input("Presiona una tecla para continuar...")
 
         
         case "6": #Reportes por Superficie
             # El usuario elige el rango de valores de superficie de un menú 
             # y el ordenamiento deseado en un submenú
             # muestra listado de paises filtrados por rango de superficie y 
-            # permite elegir el ordenamiento por nombre (por defecto), 
-            # o superficie (ascendente o descendente) dentro del rango
+            # permite elegir el ordenamiento por nombre (ascendente o descendente), población 
+            # (ascendente o descendente) o superficie (ascendente o descendente) dentro del rango
             
             #Verifica si hay paises en la lista
             #Si no tiene datos, muestra un mensaje y vuelve al menú
             if utils.lista_vacia(paises):
                 continue
 
-
-            pass
-
-            #Funcion reporte_por_superficie()
+            utils.reporte_por_superficie(paises)
+            input("Presiona una tecla para continuar...")
 
 
         case "7": #Estadísticas
