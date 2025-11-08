@@ -180,9 +180,10 @@ while  not finalizado:
                 poblacion = utils.extraer_poblacion(indice, paises)
                 superficie = utils.extraer_superficie(indice, paises)
                 continente = utils.extraer_continente(indice, paises)
+                print()
                 print(f"Pais:       {nombre}")
-                print(f"Población:  {poblacion}")
-                print(f"Superficie: {superficie}")
+                print(f"Población:  {f"{int(poblacion):,}"} habitantes")
+                print(f"Superficie: {f"{int(superficie):,}"} Km2")
                 print(f"Continente: {continente}")
                 print()
 

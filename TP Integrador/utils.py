@@ -12,16 +12,6 @@ def crear_archivo(archivo):
             paises.write("NOMBRE,POBLACION,SUPERFICIE,CONTINENTE\n")
 
 
-""" #Agrega los elementos del archivo a una lista como dicionarios de paises
-def paises_diccionarios (archivo_a_leer,lista):
-    with open(archivo_a_leer,"r") as archivo:
-
-        lineas = archivo.readlines()
-            
-        for linea in lineas:
-            partes = linea.strip().split(",")
-            lista.append({"NOMBRE": partes[0],"POBLACION":partes[1]},{"SUPERFICIE": partes[2],"CONTINENTE":partes[3]})
- """
 
 #Agrega los elementos del archivo a una lista como dicionarios de paises
 def paises_diccionarios (archivo_a_leer,lista):
@@ -37,19 +27,6 @@ def paises_diccionarios (archivo_a_leer,lista):
         for diccionario in lector:            
             lista.append(diccionario)
 
-
-""" #Actualiza los elementos en el archivo desde una lista de diccionarios (sobreescribe)
-def actualizar(archivo_a_actualizar, lista):
-
-    with open(archivo_a_actualizar, "w") as paises:
-
-        paises.write("NOMBRE,POBLACION,SUPERFICIE,CONTINENTE\n")
-
-        for pais in lista:
-            paises.write(f"{pais["NOMBRE"]},{pais["POBLACION"]},{pais["SUPERFICIE"]},{pais["CONTINENTE"]}\n")
-
-    print(f"El archivo {archivo_a_actualizar} se actualizó correctamente")
-    print() """
 
 
 #Actualiza los elementos en el archivo desde una lista de diccionarios (sobreescribe)
@@ -132,7 +109,6 @@ def validar_continente():
     continentes= ["África", "América", "Asia", "Europa", "Oceanía"]
     
     #Muestra el menú de continentes en pantalla agregando un número de orden
-    print()
     print("*** CONTINENTES ***")
     for i in range(len(continentes)):
         print(f"   {i+1}. {continentes[i]}")
@@ -155,7 +131,6 @@ def validar_rango_poblacion():
     rangos_poblacion= ["Mayor a 100 millones", "Entre 50 y 100 millones", "Entre 10 y 50 millones", "Entre 5 y 10 millones", "Entre 1 y 5 millones", "Menor a 1 millón"]
     
     #Muestra el menú de rangos de población en pantalla agregando un número de orden
-    print()
     print("*** RANGOS DE POBLACION ***")
     for i in range(len(rangos_poblacion)):
         print(f"   {i+1}. {rangos_poblacion[i]}")
@@ -179,7 +154,6 @@ def validar_rango_superficie():
     rangos_superficie= ["Mayor a 5 millones", "Entre 1 y 5 millones", "Entre 500 mil y 1 millón", "Entre 100 y 500 mil", "Entre 50 y 100 mil", "Menor a 50 mil"]
     
     #Muestra el menú de rangos de superficie en pantalla agregando un número de orden
-    print()
     print("*** RANGOS DE SUPURFICIE (en Km2) ***")
     for i in range(len(rangos_superficie)):
         print(f"   {i+1}. {rangos_superficie[i]}")
@@ -247,19 +221,23 @@ def imprimir_lista_paises(paises):
 
     encabezado=["NOMBRE","POBLACION","SUPERFICIE","CONTINENTE"]
 
-    print("*************** LISTADO DE PAISES ***************")
+    print("******************** LISTADO DE PAISES *********************")
     print(" N°", end="")
-    for j in range(len(encabezado)):
-        print(f" ** {encabezado[j]}", end= "")
-    print() 
+    print(" ****** NOMBRE ******", end="")
+    print(" **POBLACION**", end="")
+    print(" SUPERFICIE", end="")
+    print(" CONTINENTE")
+
 
     for i in range(len(paises)):
 
-            if i < 10:
+            if i < 9:
                 print(" ", end="")
 
-            print(f"{i+1}. {paises[i]["NOMBRE"]}, {paises[i]["POBLACION"]}, {paises[i]["SUPERFICIE"]}, {paises[i]["CONTINENTE"]}")
-    print()
+            #print(f"{i+1}. {paises[i]["NOMBRE"]}", (" "*(17-len(paises[i]["NOMBRE"]))), (" "*(10-len(paises[i]["POBLACION"]))), f" {f"{int(paises[i]["POBLACION"]):,}"}", (" "*(10-len(paises[i]["SUPERFICIE"]))) ,f"{f"{int(paises[i]["SUPERFICIE"]):,}"}     {paises[i]["CONTINENTE"]}")
+
+            print(f"{i+1}. {paises[i]["NOMBRE"]}", (" "*(17-len(paises[i]["NOMBRE"]))), (" "*(10-len(paises[i]["POBLACION"]))), f" {paises[i]["POBLACION"]}", (" "*(10-len(paises[i]["SUPERFICIE"]))) ,f"{paises[i]["SUPERFICIE"]}    {paises[i]["CONTINENTE"]}")
+    print() 
 
 
 #Si la lista está vacía retorna True. Si tiene elemento retorna False
@@ -326,7 +304,7 @@ def buscar_nombre_coincidencia_parcial(lista, nombre):
 
     if len(coincidencias)>1:
 
-        print("*************** COINCIDENCIAS ENCONTRADAS ***************")
+        print("******** COINCIDENCIAS ENCONTRADAS ********")
 
         for i in range(len(coincidencias)):  
 
@@ -342,8 +320,7 @@ def buscar_nombre_coincidencia_parcial(lista, nombre):
         return int(coincidencias[int(opcion_elegida)-1]["INDICE"])
 
     elif len(coincidencias)==1:
-            return  int(coincidencias[0]["INDICE"])
-    print()  
+            return  int(coincidencias[0]["INDICE"]) 
         
     #Si no lo encuentra devuelve -1
     if not encontrado:
@@ -355,7 +332,7 @@ def buscar_nombre_coincidencia_parcial(lista, nombre):
 # permite cambiar la población y superficie
 def modificar_pais(lista, posicion):
 
-    modifica= input(f"Usted va a modificar el pais {lista[posicion]["NOMBRE"]}. Desea continuar? (S=si)").upper().strip() == "S"
+    modifica= input(f"Usted va a modificar el pais {lista[posicion]["NOMBRE"]}. Desea continuar? (S=si): ").upper().strip() == "S"
 
     if modifica:
 
@@ -499,7 +476,6 @@ def ordenamiento_lista (lista):
     ordenamientos= ["Nombre ascendente", "Nombre descendente", "Población ascendente", "Población descendente", "Superficie Ascendente", "Superficie Descendente"]
     
     #Muestra el menú de opciones de ordenamiento en pantalla agregando un número de orden
-    print()
     print("*** OPCIONES DE ORDENAMIENTO ***")
     for i in range(len(ordenamientos)):
         print(f"   {i+1}. {ordenamientos[i]}")
@@ -662,7 +638,7 @@ def reporte_por_superficie(lista):
 
         lista_filtrada= ordenamiento_lista(lista_filtrada)
 
-        print(f"Rango de superficio: {rangos_superficie[int(rango)-1]}")
+        print(f"Rango de superficie: {rangos_superficie[int(rango)-1]}")
         imprimir_lista_paises(lista_filtrada)
 
     else:
@@ -735,13 +711,13 @@ def estadisticas(lista):
 
     print("************* ESTADISTICAS *************")
     print()
-    print("Pais con menor población:", menor_poblacion_nombre, ". Población:", menor_poblacion," habitantes.")
-    print("Pais con mayor población:", mayor_poblacion_nombre, ". Población:", mayor_poblacion," habitantes.")
-    print("Promedio de Población de los paises del listado:", suma_poblacion//len(lista)," habitantes/país.")
+    print(f"Pais con menor población: {menor_poblacion_nombre}. Población: {f"{menor_poblacion:,}"} habitantes.")
+    print(f"Pais con mayor población: {mayor_poblacion_nombre}. Población: {f"{mayor_poblacion:,}"} habitantes.")
+    print(f"Promedio de Población de los paises del listado: {f"{suma_poblacion//len(lista):,}"} habitantes/país.")
     print()
-    print("Pais con menor superficie:", menor_superficie_nombre, ". Superficie:", menor_superficie," Km2.")
-    print("Pais con mayor superficie:", mayor_superficie_nombre, ". Superficie:", mayor_poblacion," Km2.")
-    print("Promedio de Superficie de los paises del listado:", suma_superficie//len(lista)," Km2/país.")
+    print(f"Pais con menor superficie: {menor_superficie_nombre}. Superficie: {f"{menor_superficie:,}"} Km2.")
+    print(f"Pais con mayor superficie: {mayor_superficie_nombre}. Superficie:{f"{mayor_poblacion:,}"} Km2.")
+    print(f"Promedio de Superficie de los paises del listado: {f"{suma_superficie//len(lista):,}"} Km2/país.")
     print()
     print("*** CANTIDAD DE PAISES POR CONTINENTE ***")
 
