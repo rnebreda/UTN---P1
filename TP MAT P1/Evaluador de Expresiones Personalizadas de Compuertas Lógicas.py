@@ -4,7 +4,7 @@
     utilizando las compuertas lógicas básicas (AND, OR, NOT, XOR) y evalúa dichas
     expresiones para todas las combinaciones posibles de las variables involucradas.
     Expresa como resultado la tabla de verdad correspondiente.
-    Puede evaluar expresiones de 2 y de 4 variables"""
+    Puede evaluar expresiones de 2, 3 y 4 variables"""
 
 # Definición de las compuertas lógicas básicas (simulación)
 def NOT(a):
@@ -17,7 +17,7 @@ def XOR(a, b):
     return (a or b) and not (a and b)
 
 
-def simular_expresion_usuario():
+def simular_expresion_usuario_2_vars():
     """Permite al usuario ingresar una expresión lógica personalizada
      de 2 variables (A, B) y la evalúa."""
 
@@ -81,6 +81,67 @@ def simular_expresion_usuario():
                 return # Salimos de la función si hay un error de sintaxis
 
 
+def simular_expresion_usuario_3_vars():
+    """
+    Permite al usuario ingresar una expresión lógica personalizada y la evalúa 
+    para 4 variables (A, B, C).
+    """
+    print("\n--- Evaluación de Expresión Personalizada (4 Variables) ---")
+    print("Variables disponibles: A, B, C (se prueban todas las 8 combinaciones)")
+    print("Funciones/Compuertas disponibles: AND(A, B), OR(A, B), NOT(A), XOR(A, B)")
+    print("Ejemplo de entrada: AND(A, OR(B, AND(NOT(A), C)))")
+    
+    # Solicitar la expresión lógica al usuario y la pasa a mayúsculas por compatibilidad
+    expresion_str = input("\nIngrese su expresión lógica: ").upper()
+
+    print(f"\nGenerando tabla de verdad para: {expresion_str}")
+    # Formato de cabecera para 4 variables
+    print("| A | B | C | f(x)|")
+    print("|---|---|---|-----|")
+
+    # Preparamos el entorno seguro para eval(), idem al caso de 2 variables
+    scope = {
+        'AND': AND,
+        'OR': OR,
+        'NOT': NOT,
+        'XOR': XOR,
+        'True': True,
+        'False': False,
+        'A': False, 'B': False, 'C': False # Inicializamos variables en el scope
+    }
+    
+    # Iteramos sobre todas las 8 combinaciones posibles de A, B, C
+    for A in [False, True]:
+        for B in [False, True]:
+            for C in [False, True]:
+                
+                # Actualizamos las variables en el scope local para esta iteración
+                scope['A'] = A
+                scope['B'] = B
+                scope['C'] = C
+                    
+                try:
+                    # Usamos eval() de forma controlada, idem al caso de 2 variables
+                    resultado = eval(expresion_str, {"__builtins__": None}, scope)
+                        
+                    # Convertimos el resultado a 0/1 de forma segura, idem al caso de 2 variables
+                    if isinstance(resultado, bool):
+                        resultado_int = int(resultado)
+
+                    elif isinstance(resultado, int) and resultado in (0, 1):
+                        resultado_int = resultado
+
+                    else:
+                        resultado_int = int(bool(resultado))
+
+                    # Imprimimos la fila de la tabla
+                    print(f"| {int(A)} | {int(B)} | {int(C)} |  {resultado_int}  |")                    
+                    
+                except Exception as e:
+                    print(f"Error al evaluar la expresión para esta combinación: {e}")
+                    print("Por favor, verifique su sintaxis y que use solo las variables A, B, C.")
+
+
 def simular_expresion_usuario_4_vars():
     """
     Permite al usuario ingresar una expresión lógica personalizada y la evalúa 
@@ -142,7 +203,6 @@ def simular_expresion_usuario_4_vars():
                         print(f"Error al evaluar la expresión para esta combinación: {e}")
                         print("Por favor, verifique su sintaxis y que use solo las variables A, B, C, D.")
 
-
 # --- Función Principal con Menú ---
 
 def menu_principal():
@@ -153,7 +213,8 @@ def menu_principal():
         print("=====================================")
         print("Seleccione una opción:")
         print("1. Evaluar Expresión Personalizada (2 Variables A, B)")
-        print("2. Evaluar Expresión Personalizada (4 Variables A, B, C, D)")
+        print("2. Evaluar Expresión Personalizada (3 Variables A, B, C)")
+        print("3. Evaluar Expresión Personalizada (4 Variables A, B, C, D)")        
         print()
         print("0. Salir")
         print("-------------------------------------")
@@ -162,14 +223,18 @@ def menu_principal():
         
 
         if opcion == '1':
-            simular_expresion_usuario()
+            simular_expresion_usuario_2_vars()
         
         elif opcion == '2':
+            simular_expresion_usuario_3_vars()
+
+        elif opcion == '3':
             simular_expresion_usuario_4_vars()
 
         elif opcion == '0':
             print("Saliendo del programa. Hasta pronto!!!")
             print()
+            input()
             break
         else:
             # ... (manejo de errores de opción) ...
