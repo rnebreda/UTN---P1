@@ -84,9 +84,9 @@ def simular_expresion_usuario_2_vars():
 def simular_expresion_usuario_3_vars():
     """
     Permite al usuario ingresar una expresión lógica personalizada y la evalúa 
-    para 4 variables (A, B, C).
+    para 3 variables (A, B, C).
     """
-    print("\n--- Evaluación de Expresión Personalizada (4 Variables) ---")
+    print("\n--- Evaluación de Expresión Personalizada (3 Variables) ---")
     print("Variables disponibles: A, B, C (se prueban todas las 8 combinaciones)")
     print("Funciones/Compuertas disponibles: AND(A, B), OR(A, B), NOT(A), XOR(A, B)")
     print("Ejemplo de entrada: AND(A, OR(B, AND(NOT(A), C)))")
@@ -95,7 +95,7 @@ def simular_expresion_usuario_3_vars():
     expresion_str = input("\nIngrese su expresión lógica: ").upper()
 
     print(f"\nGenerando tabla de verdad para: {expresion_str}")
-    # Formato de cabecera para 4 variables
+    # Formato de cabecera para 3 variables
     print("| A | B | C | f(x)|")
     print("|---|---|---|-----|")
 
